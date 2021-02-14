@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1vzly52" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.11.0">
+  <bpmn:process id="random" name="random" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_RandomNUmber" name="Start">
+      <bpmn:outgoing>Flow_0vc5l68</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_02e9o8k" name="End 60%">
+      <bpmn:incoming>Flow_1hm9bbn</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0vc5l68" sourceRef="StartEvent_RandomNUmber" targetRef="Activity_RandomScript" />
+    <bpmn:exclusiveGateway id="Gateway_6040">
+      <bpmn:incoming>Flow_1nv3b3c</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hm9bbn</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1rg7vb5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1hm9bbn" name="60%" sourceRef="Gateway_6040" targetRef="Event_02e9o8k">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= random &gt; 40</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_1nnb5xi" name="End 40%">
+      <bpmn:incoming>Flow_1rg7vb5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1rg7vb5" name="40%" sourceRef="Gateway_6040" targetRef="Event_1nnb5xi">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= random &lt;= 40</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1nv3b3c" sourceRef="Activity_RandomScript" targetRef="Gateway_6040" />
+    <bpmn:serviceTask id="Activity_RandomScript" name="Generate Random Number (0,100)">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="script" />
+        <zeebe:ioMapping>
+          <zeebe:output source="= result" target="random" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="language" value="javascript" />
+          <zeebe:header key="script" value="Math.random()*100" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vc5l68</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nv3b3c</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="random">
+      <bpmndi:BPMNEdge id="Flow_1nv3b3c_di" bpmnElement="Flow_1nv3b3c">
+        <di:waypoint x="410" y="177" />
+        <di:waypoint x="515" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rg7vb5_di" bpmnElement="Flow_1rg7vb5">
+        <di:waypoint x="540" y="202" />
+        <di:waypoint x="540" y="240" />
+        <di:waypoint x="612" y="240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="528" y="253" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hm9bbn_di" bpmnElement="Flow_1hm9bbn">
+        <di:waypoint x="540" y="152" />
+        <di:waypoint x="540" y="120" />
+        <di:waypoint x="612" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="528" y="93" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vc5l68_di" bpmnElement="Flow_0vc5l68">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="310" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_RandomNUmber">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="185" y="202" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_02e9o8k_di" bpmnElement="Event_02e9o8k">
+        <dc:Bounds x="612" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="610" y="145" width="45" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0m2iw4x_di" bpmnElement="Gateway_6040" isMarkerVisible="true">
+        <dc:Bounds x="515" y="152" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1nnb5xi_di" bpmnElement="Event_1nnb5xi">
+        <dc:Bounds x="612" y="222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="609" y="265" width="45" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rzprho_di" bpmnElement="Activity_RandomScript">
+        <dc:Bounds x="310" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
